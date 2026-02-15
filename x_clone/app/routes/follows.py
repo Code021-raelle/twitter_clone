@@ -5,6 +5,7 @@ from app.database import get_db
 from app.models.follow import Follow
 from app.models.user import User
 from app.utils.dependencies import get_current_user
+from app.utils.notifications import create_notification
 
 router = APIRouter(
     prefix="/follows",
@@ -50,7 +51,14 @@ def follow_user(
     db.add(follow)
     db.commit()
 
-    return {"message": "Now following"}
+    create_notification(
+        db,
+        recipient_id=user_id,
+        actor_id=current_user.id,
+        type="follow"
+    )
+    
+    return {"message": "Now Following"}
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_200_OK)
