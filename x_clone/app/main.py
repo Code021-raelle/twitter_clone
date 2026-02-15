@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.database import engine, Base
 from app.models import user, tweet, follow, like, retweet
-from app.routes import auth, users, tweets, follows, likes, retweets
+from app.routes import auth, users, tweets, follows, likes, retweets, notifications
 
 app = FastAPI(title="Twitter Clone API")
 
@@ -16,7 +16,7 @@ app.include_router(tweets.router)
 app.include_router(follows.router)
 app.include_router(likes.router)
 app.include_router(retweets.router)
-
+app.include_router(notifications.router)
 
 @app.get("/")
 def root():
