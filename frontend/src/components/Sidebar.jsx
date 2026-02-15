@@ -1,10 +1,17 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../services/theme";
 import useNotifications from "../services/useNotifications";
+import useRealtimeNotifications from "../services/useRealtimeNotifications";
 
 export default function Sidebar() {
     const navigate = useNavigate();
     const unread = useNotifications();
+    const [unreadCount, setUnreadCount] = useState(0);
+
+    useRealtimeNotifications(() => {
+        setUnreadCount((prev) => prev + 1);
+    });
 
     const logout = () => {
         localStorage.removeItem("token");
