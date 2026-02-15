@@ -35,3 +35,16 @@ def mark_all_read(
     
     db.commit()
     return {"message": "Marked as read."}
+
+
+@router.get("/unread_count")
+def unread_count(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    count = db.query(Notification).filter(
+        Notification.recipient_id == current_user.id,
+        Notification.is_read == False
+    ).count()
+    
+    return {"count": count}
