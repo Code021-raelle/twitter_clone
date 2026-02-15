@@ -16,6 +16,7 @@ export default function Sidebar() {
             <nav className="flex flex-col gap-4 text-lg">
                 <Link to="/" className="hover:text-blue-500">🏠 Home</Link>
                 <Link to="/profile" className="hover:text-blue-500">👤 Profile</Link>
+                <Link to="/notifications" className="hover:text-blue-500">🔔 Notifications</Link>
                 <button onClick={logout} className="text-left hover:text-blue-500">
                     🚪 Logout
                 </button>
