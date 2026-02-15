@@ -3,8 +3,10 @@ from app.database import engine, Base
 from app.models import user, tweet, follow, like, retweet
 from app.routes import auth, users, tweets, follows, likes, retweets, notifications
 from app.websockets.notifications import notifications_socket
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Twitter Clone API")
+app.mount("/media", StaticFiles(directory="media"), name="media")
 
 @app.on_event("startup")
 def startup():
