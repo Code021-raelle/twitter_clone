@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { toggleTheme } from "../services/theme";
 
 export default function Sidebar() {
     const navigate = useNavigate();
@@ -17,6 +18,12 @@ export default function Sidebar() {
                 <Link to="/profile" className="hover:text-blue-500">👤 Profile</Link>
                 <button onClick={logout} className="text-left hover:text-blue-500">
                     🚪 Logout
+                </button>
+                <button
+                    onClick={toggleTheme}
+                    className="mt-6 text-left hover:text-blue-500 dark:hover:text-yellow-400"
+                >
+                    🌙 Toggle Theme
                 </button>
             </nav>
         </aside>
