@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from app.database import engine, Base
 from app.models import user, tweet, follow, like, retweet
 from app.routes import auth, users, tweets, follows, likes, retweets, notifications
+from app.websockets.notifications import notifications_socket
 
 app = FastAPI(title="Twitter Clone API")
 
@@ -21,3 +22,8 @@ app.include_router(notifications.router)
 @app.get("/")
 def root():
     return {"message": "Twitter Clone API is running."}
+
+
+@app.websocket("/ws/notifications")
+async def ws_notifications(websocket: WebSocket):
+    await notifications_socket(websocket)
