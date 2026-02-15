@@ -95,24 +95,6 @@ def get_feed(
     return results
 
 
-@router.get("/", response_model=list[dict])
-def get_all_tweets(db: Session = Depends(get_db)):
-    tweets = db.query(Tweet).order_by(Tweet.created_at.desc()).all()
-
-    results = []
-    for tweet in tweets:
-        likes_count = db.query(Like).filter(Like.tweet_id == tweet.id).count()
-        results.append({
-            "id": tweet.id,
-            "content": tweet.content,
-            "user_id": tweet.user_id,
-            "created_at": tweet.created_at,
-            "likes": likes_count
-        })
-
-    return results
-
-
 @router.get("/user/{user_id}", response_model=list[dict])
 def get_user_tweets(user_id: int, db: Session = Depends(get_db)):
     tweets = db.query(Tweet).filter(
@@ -133,3 +115,25 @@ def get_user_tweets(user_id: int, db: Session = Depends(get_db)):
         })
 
     return results
+
+
+@router.get("/{tweet_id}")
+def get_tweet(tweet_id: int, db: Session = Depends(get_db)):
+    tweet = db.query(Tweet).filter(Tweet.id == tweet_id).first()
+    if not tweet:
+        raise HTTPException(
+            status_code=404,
+            detail="Tweet not found"
+        )
+
+    likes = db.query(Like).filter(Like.tweet_id == tweet.id).count()
+    retweets = db.query(Retweet).filter(Retweet.tweet_id == tweet.id).count()
+
+    return {
+        "id": tweet.id,
+        "content": tweet.content,
+        "user_id": tweet.user_id,
+        "created_at": tweet.created_at,
+        "likes": likes,
+        "retweets": retweets
+    }
