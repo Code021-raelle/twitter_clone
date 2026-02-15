@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../services/theme";
+import useNotifications from "../services/useNotifications";
 
 export default function Sidebar() {
     const navigate = useNavigate();
+    const unread = useNotifications();
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -16,7 +18,14 @@ export default function Sidebar() {
             <nav className="flex flex-col gap-4 text-lg">
                 <Link to="/" className="hover:text-blue-500">🏠 Home</Link>
                 <Link to="/profile" className="hover:text-blue-500">👤 Profile</Link>
-                <Link to="/notifications" className="hover:text-blue-500">🔔 Notifications</Link>
+                <Link to="/notifications" className="relative hover:text-blue-500 flex items-center gap-2">
+                    🔔 Notifications
+                    {unread > 0 && (
+                        <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                            {unread}
+                        </span>
+                    )}
+                </Link>
                 <button onClick={logout} className="text-left hover:text-blue-500">
                     🚪 Logout
                 </button>
