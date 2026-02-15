@@ -37,7 +37,7 @@ def mark_all_read(
     return {"message": "Marked as read."}
 
 
-@router.get("/unread_count")
+@router.get("/unread-count")
 def unread_count(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
