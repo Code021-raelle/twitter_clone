@@ -6,6 +6,7 @@ from app.models.retweet import Retweet
 from app.models.user import User
 from app.models.tweet import Tweet
 from app.utils.dependencies import get_current_user
+from app.utils.notifications import create_notification
 
 router = APIRouter(
     prefix="/retweets",
@@ -45,6 +46,15 @@ def retweet(
     db.add(retweet)
     db.commit()
 
+    if tweet.user_id != current_user.id:
+        create_notification(
+            db,
+            recipient_id=tweet.user_id,
+            actor_id=current_user.id,
+            type="retweet",
+            tweet_id=tweet.id
+        )
+        
     return {"message": "Tweet retweeted successfully."}
 
 
