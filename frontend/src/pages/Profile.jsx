@@ -49,6 +49,11 @@ export default function Profile() {
     return (
         <Layout>
             <div className="p-4">
+                <img
+                    src={user.avatar || "/default-avatar.png"}
+                    className="w-20 h-20 rounded-full mb-2"
+                />
+                
                 <div className="border-b pb-4 mb-4">
                     <h1 className="text-2xl font-bold">@{user.username}</h1>
                     <p className="text-gray-600">{user.bio || "No bio yet"}</p>
@@ -77,6 +82,13 @@ export default function Profile() {
                 {tweets.map((t) => (
                     <TweetCard key={t.id} tweet={t} onUpdate={fetchTweets} />
                 ))}
+
+                <button
+                    onClick={() => Navigate("/edit-profile")}
+                    className="mt-3 border px-4 py-1 rounded"
+                >
+                    Edit Profile
+                </button>
             </div>
         </Layout>
     );
