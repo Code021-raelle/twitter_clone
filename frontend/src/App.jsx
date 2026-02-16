@@ -5,6 +5,7 @@ import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import Tweet from "./pages/Tweet";
 import Notifications from "./pages/Notifications";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/tweets/:id" element={<Tweet />} />
         <Route path="/users/:id" element={<Profile />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>
   );
